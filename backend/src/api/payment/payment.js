@@ -2,7 +2,7 @@ const restful = require('node-restful')
 const mongoose = restful.mongoose
 const paymentValidator = require('./paymentValidator')
 
-const requiredCreditCard = paymentValidator.checkValidPaymentType()
+//const requiredCreditCard = paymentValidator.checkValidPaymentType()
 
 const paymentSchema = new mongoose.Schema({
     client: { type: String, 
@@ -27,7 +27,8 @@ const paymentSchema = new mongoose.Schema({
         'O preenchimento da validade do cartão de crédito é obrigatória.']}, 
     cardCVV: { type: Number, 
         required: [function() { return this.paymentType === 'Credit Card' },
-        'O preenchimento do CVV do cartão de crédito é obrigatório.']}
+        'O preenchimento do CVV do cartão de crédito é obrigatório.']},
+    includeDate: { type: Date, default: Date.now }
 })
 
 paymentSchema.pre('validate', function(next) {

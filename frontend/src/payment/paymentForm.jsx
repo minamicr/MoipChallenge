@@ -76,7 +76,7 @@ export default props => (
 
             <div className="form-group row pb-2">
                 <label htmlFor="clientName" className="col-3 col-form-label">Cliente</label>
-                <div className="col-9 input-group" >
+                <div className="col-3 input-group" >
                     <select id="client" 
                         value={props.selectedOption}
                         onChange={props.handleChangeSelectClient}>
@@ -85,11 +85,9 @@ export default props => (
            
                     </select>
                 </div>
-            </div>
 
-            <div className="form-group row pb-2">
-                <label htmlFor="buyerName" className="col-3 col-form-label">Comprador</label>
-                <div className="col-9 input-group" >
+                <label htmlFor="buyerName" className="col-1 col-form-label">Comprador</label>
+                <div className="col-5 input-group" >
                     <select id="buyer" 
                         value={props.selectedOption}
                         onChange={props.handleChangeSelectBuyer}>
@@ -129,58 +127,56 @@ export default props => (
                 </div>            
             </div>
 
-            <div className="form-group row pb-2">
-                <label htmlFor="cardHolderName" className="col-3 col-form-label">Nome no cartão de crédito</label>
-                <div className="col-9 input-group">
-                    <input type="text" 
-                        className="form-control"
-                        id="cardHolderName"
-                        value={props.cardHolderName} 
-                        onChange={props.handleChange}/>
-                </div>                
-            </div>
+           
+            <div className={props.paymentType == 'Boleto'?'invisible':''} id="creditCard">
+                
+                <div className="form-group row pb-2">
+                    <label htmlFor="cardHolderName" className="col-3 col-form-label">Nome no cartão de crédito</label>
+                    <div className="col-3 input-group">
+                        <input type="text" 
+                            className="form-control"
+                            id="cardHolderName"
+                            value={props.cardHolderName} 
+                            onChange={props.handleChange}/>
+                    </div>    
+                    <label htmlFor="cardNumber" className="col-2 col-form-label">Número do cartão</label>
+                    <div className="col-4 input-group">
+                        <input type="text" 
+                            className="form-control"
+                            id="cardNumber"
+                            value={props.cardNumber} 
+                            onChange={props.handleChange}/>
+                    </div>                      
+                </div>
 
-            <div className="form-group row pb-2">
-                <label htmlFor="cardNumber" className="col-3 col-form-label">Numero do cartão</label>
-                <div className="col-9 input-group">
-                    <input type="text" 
-                        className="form-control"
-                        id="cardNumber"
-                        value={props.cardNumber} 
-                        onChange={props.handleChange}/>
-                </div>                
-            </div>
+                <div className="form-group row pb-2">
+                    <label htmlFor="cardExpirationDate" className="col-3 col-form-label">Data de validade do cartão</label>
+                    <div className="col-3 input-group">
+                        <input type="text" 
+                            className="form-control"
+                            id="cardExpirationDate"
+                            value={props.cardExpirationDate} 
+                            onChange={props.handleChange}/>
+                    </div>                
 
-            <div className="form-group row pb-2">
-                <label htmlFor="cardExpirationDate" className="col-3 col-form-label">Data de validade do cartão</label>
-                <div className="col-3 input-group">
-                    <input type="text" 
-                        className="form-control"
-                        id="cardExpirationDate"
-                        value={props.cardExpirationDate} 
-                        onChange={props.handleChange}/>
-                </div>                
-
-                <label htmlFor="cardCVV" className="col-1 col-form-label">CVV</label>
-                <div className="col-5 input-group">
-                    <input type="text" 
-                        className="form-control"
-                        id="cardCVV"
-                        placeholder="número atrás do cartão"
-                        value={props.cardCVV} 
-                        onChange={props.handleChange}/>
+                    <label htmlFor="cardCVV" className="col-2 col-form-label">CVV</label>
+                    <div className="col-4 input-group">
+                        <input type="text" 
+                            className="form-control"
+                            id="cardCVV"
+                            placeholder="número atrás do cartão"
+                            value={props.cardCVV} 
+                            onChange={props.handleChange}/>
+                    </div>
                 </div>
             </div>
 
-
-            <div className="form-row">
-                <div className="col-12 d-flex justify-content-end">
+            <div className="form-row mb-4">
+                <div className="col-12 d-flex">
                     <button type="submit" className="btn btn-primary" 
-                        onClick={props.handleAddUpdate}>Incluir</button>
-                    <button type="submit" className="btn btn-secondary ml-2"
-                        onClick={props.handleList}>Listar</button>
+                        onClick={props.handleAddUpdate}>Incluir Pagamento</button>
                     <button type="reset" className="btn btn-secondary ml-2"
-                        onClick={props.handleCleanFields}>Cancelar</button>
+                        onClick={props.cleanFields}>Cancelar</button>
                 </div>
             </div>                    
 

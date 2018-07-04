@@ -17,21 +17,22 @@ export default class Payment extends Component {
                 buyer: '',
                 buyerID: '',
                 buyerName: '', buyerCPF: '', buyerEmail: '',
-                paymentID: '', amount: '', paymentType: '',
+                amount: '', paymentType: 'Boleto',
                 cardHolderName: '', cardNumber: '', 
                 cardExpirationDate: '', cardCVV: '', 
                 listPayment: [], listBuyer: [], listClient: []}
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeSelectBuyer = this.handleChangeSelectBuyer.bind(this)
         this.handleChangeSelectClient = this.handleChangeSelectClient.bind(this)
-        this.handleCleanFields = this.handleCleanFields.bind(this)
         this.handleAddUpdate = this.handleAddUpdate.bind(this)
         this.handleList = this.getPayments.bind(this)
+        this.handleAddClient = this.handleAddClient.bind(this)
         this.handleAddBuyer = this.handleAddBuyer.bind(this)
+        this.cleanFields = this.cleanFields.bind(this)
         this.getBuyers = this.getBuyers.bind(this)
         this.getClients = this.getClients.bind(this)
         this.getPayments = this.getPayments.bind(this)
-        this.handleAddClient = this.handleAddClient.bind(this)
+        
         
         this.getBuyers()
         this.getClients()
@@ -43,6 +44,9 @@ export default class Payment extends Component {
         axios.get(`${URL_Buyer}?sort=buyerName`)
         .then(resp => this.setState({...this.state
             , listBuyer: resp.data}))
+        .catch(error => {
+            alert('ATENÇÃO: ocorreu um erro, não foi possível listar os compradores.')
+        })
 
     }
 
@@ -50,11 +54,14 @@ export default class Payment extends Component {
         axios.get(`${URL_Client}?sort=clientName`)
         .then(resp => this.setState({...this.state
             , listClient: resp.data}))
+        .catch(error => {
+            alert('ATENÇÃO: ocorreu um erro, não foi possível listar os clientes.')
+        })
 
     }
 
     getPayments() {
-        axios.get(`${URL_Payment}`)
+        axios.get(`${URL_Payment}?sort=-includeDate`)
             .then(resp => this.setState({...this.state,
                 listPayment: resp.data}))
             .catch(error => {
@@ -95,7 +102,7 @@ export default class Payment extends Component {
             buyerEmail,
             buyerCPF
         }) 
-        .then(response => alert(`Comprador ${buyerName} incluído [ID ${response.data._id}]`))
+        .then(response => console.log(`Comprador ${buyerName} incluído [ID ${response.data._id}]`))
         .catch(error => {
             alert(`ATENÇÃO: ocorreu um erro na inclusão do comprador !`)
         })
@@ -106,7 +113,7 @@ export default class Payment extends Component {
         axios.post(`${URL_Client}`, {
             clientName
         }) 
-        .then(response => alert(`Cliente ${clientName} incluído [ID ${response.data._id}]`))
+        .then(response => console.log(`Cliente ${clientName} incluído [ID ${response.data._id}]`))
         .catch(error => {
             alert(`ATENÇÃO: ocorreu um erro na inclusão do cliente !`)
         })
@@ -136,31 +143,30 @@ export default class Payment extends Component {
             cardExpirationDate, 
             cardCVV 
         })
-        .then(resp => alert(`numero do boleto ${resp.data.boletoNumber}`))
+        .then(resp => console.log(`Pagamento ${resp.data._id}`))
         .catch(error => {
                 alert('ATENÇÃO: ocorreu um erro, não foi possível incluir o pagamento.')
         })
         
     }
 
-    handleCleanFields(){
+    cleanFields(){
         this.setState({
-            paymentID: ''
-            , buyerID: ''
+            buyerID: ''
             , clientID: ''
             , clientName: ''
             , buyerName: ''
             , buyerCPF: ''
             , buyerEmail: ''
             , amount: ''
-            , paymentType: ''
+            , paymentType: 'Boleto'
             , cardHolderName: ''
             , cardNumber: ''
             , cardExpirationDate: ''
             , cardCVV: ''
         }) 
-    }
 
+    }
 
     createBoletoNumber(){
         return ((Date.now() + Math.random()).toString()).substring(0,12)
@@ -184,14 +190,13 @@ export default class Payment extends Component {
                     cardNumber={this.state.cardNumber}
                     cardExpirationDate={this.state.cardExpirationDate}
                     cardCVV={this.state.cardCVV}
-
                     handleChange={this.handleChange} 
                     handleChangeSelectBuyer={this.handleChangeSelectBuyer} 
                     handleChangeSelectClient={this.handleChangeSelectClient} 
-                    handleCleanFields={this.handleCleanFields}
                     handleAddUpdate={this.handleAddUpdate}
                     handleAddBuyer={this.handleAddBuyer}
                     handleAddClient={this.handleAddClient}
+                    cleanFields={this.cleanFields}
                     
             
                 />
