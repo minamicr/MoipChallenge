@@ -24,7 +24,7 @@ export default class Payment extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeSelectBuyer = this.handleChangeSelectBuyer.bind(this)
         this.handleChangeSelectClient = this.handleChangeSelectClient.bind(this)
-        this.handleAddUpdate = this.handleAddUpdate.bind(this)
+        this.handleAddPayment = this.handleAddPayment.bind(this)
         this.handleList = this.getPayments.bind(this)
         this.handleAddClient = this.handleAddClient.bind(this)
         this.handleAddBuyer = this.handleAddBuyer.bind(this)
@@ -69,12 +69,14 @@ export default class Payment extends Component {
             })
     }
 
+    //update state of client from option selected
     handleChangeSelectClient(e){
         const selectedIndex = e.target.options.selectedIndex
         this.setState({clientID: e.target.options[selectedIndex].id})
 
     }
 
+    //update state of buyer from option selected
     handleChangeSelectBuyer(e){
         const selectedIndex = e.target.options.selectedIndex
         this.setState({buyerID: e.target.options[selectedIndex].id,
@@ -82,6 +84,7 @@ export default class Payment extends Component {
 
     }
 
+    //update state of componentes
     handleChange(e) {
         let change = {}
         if (e.target.id == ''){
@@ -119,7 +122,7 @@ export default class Payment extends Component {
         })
     }
 
-    handleAddUpdate() {
+    handleAddPayment() {
         const buyerID = this.state.buyerID
         const buyerName = this.state.buyerName
         const clientID = this.state.clientID
@@ -129,6 +132,7 @@ export default class Payment extends Component {
         const cardNumber = this.state.cardNumber
         const cardExpirationDate = this.state.cardExpirationDate
         const cardCVV = this.state.cardCVV
+        //create boleto number just for paymentType Boleto
         const boletoNumber = paymentType === 'Boleto'?this.createBoletoNumber():''
 
         axios.post(`${URL_Payment}`, { 
@@ -193,7 +197,7 @@ export default class Payment extends Component {
                     handleChange={this.handleChange} 
                     handleChangeSelectBuyer={this.handleChangeSelectBuyer} 
                     handleChangeSelectClient={this.handleChangeSelectClient} 
-                    handleAddUpdate={this.handleAddUpdate}
+                    handleAddPayment={this.handleAddPayment}
                     handleAddBuyer={this.handleAddBuyer}
                     handleAddClient={this.handleAddClient}
                     cleanFields={this.cleanFields}

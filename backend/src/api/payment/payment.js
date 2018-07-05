@@ -2,14 +2,13 @@ const restful = require('node-restful')
 const mongoose = restful.mongoose
 const paymentValidator = require('./paymentValidator')
 
-//const requiredCreditCard = paymentValidator.checkValidPaymentType()
 
 const paymentSchema = new mongoose.Schema({
     client: { type: String, 
         required: [true, 'O cliente precisa ser informado.'] },
     buyer: { type: String, 
         validate: [paymentValidator.checkValidBuyer, 'O comprador precisa ser informado.'] },
-    buyerName: { type: String },
+    buyerName: { type: String, required: false },
     amount: {type: Number, 
         required: [true, 'O valor do pagamento precisa ser informado.']},
     paymentType: {type: String, 
@@ -31,8 +30,8 @@ const paymentSchema = new mongoose.Schema({
     includeDate: { type: Date, default: Date.now }
 })
 
+//Validate information before saving
 paymentSchema.pre('validate', function(next) {
-    //const buyerSearch = readBuyer(this.buyer)
     const buyerName = this.buyerName
     const cardName = this.cardHolderName
     const paymentType = this.paymentType
@@ -46,24 +45,5 @@ paymentSchema.pre('validate', function(next) {
   
     next()
 })
-
-
-
-/* function to find buyer name to validate card holder name
-function readBuyer(id){
-   
-    var connection = mongoose.connection;
-
-    connection.db.getCollection('buyers').findOne({_id:ObjectId(id)}
-        , function(err, buyer){
-            if (err){
-                console.log("err",err)
-                //return done(err, null);
-            }else{
-                return(buyer)
-            }
-    })
-}
-*/
 
 module.exports = restful.model('Payment', paymentSchema)

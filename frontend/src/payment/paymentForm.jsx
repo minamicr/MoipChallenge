@@ -127,8 +127,7 @@ export default props => (
                 </div>            
             </div>
 
-           
-            <div className={props.paymentType == 'Boleto'?'invisible':''} id="creditCard">
+            <div id="creditCard" className={props.paymentType == 'Boleto'?'invisible':''} >
                 
                 <div className="form-group row pb-2">
                     <label htmlFor="cardHolderName" className="col-3 col-form-label">Nome no cartão de crédito</label>
@@ -174,7 +173,7 @@ export default props => (
             <div className="form-row mb-4">
                 <div className="col-12 d-flex">
                     <button type="submit" className="btn btn-primary" 
-                        onClick={props.handleAddUpdate}>Incluir Pagamento</button>
+                        onClick={props.handleAddPayment}>Incluir Pagamento</button>
                     <button type="reset" className="btn btn-secondary ml-2"
                         onClick={props.cleanFields}>Cancelar</button>
                 </div>
